@@ -44,8 +44,9 @@ public class ServerStatusCommands implements MessageCreateListener {
                         .addField("Server IP", ms.getAddress() + ":" + ms.getPort())
                         .addField("Server Version", "1.16.5")
                         .addField("Capacity", onlinePlayers + "/" + maxPlayers)
+                        .addInlineField("Whitelist Status", "20/20 - FULL")
                         .setThumbnail(new File("./src/main/resources/server-icon.png"))
-                        .setColor(Color.PINK);
+                        .setColor(Color.GREEN);
 
                 event.getChannel().sendMessage(embed);
 
@@ -56,8 +57,9 @@ public class ServerStatusCommands implements MessageCreateListener {
                         .setTitle("Server Status")
                         .addField("Server IP", ms.getAddress() + ":" + ms.getPort())
                         .addField("Server Status", "Offline")
+                        .addInlineField("Whitelist Status", "20/20 - FULL")
                         .setImage(new File("./src/main/resources/server-icon.png"))
-                        .setColor(Color.PINK);
+                        .setColor(Color.RED);
 
                 event.getChannel().sendMessage(embed);
             }
