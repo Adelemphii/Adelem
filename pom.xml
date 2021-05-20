@@ -33,6 +33,13 @@
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <mainClass>me.adelemphii.adelem.Core</mainClass>
+                        </manifest>
+                    </archive>
                 </configuration>
 
                 <executions>
