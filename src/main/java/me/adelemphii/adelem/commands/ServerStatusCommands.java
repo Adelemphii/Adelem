@@ -23,6 +23,8 @@ public class ServerStatusCommands implements MessageCreateListener {
         final Long MINECRAFT_CHANNEL_ID = 844913252597235723L;
         final Long TEST_CHANNEL_ID = 844958913178370132L;
 
+        // Prevent people from using the command outside my BT channel and #minecraft-whitelist
+
         if(msg.getChannel().getId() != MINECRAFT_CHANNEL_ID && msg.getChannel().getId() != TEST_CHANNEL_ID) { return; }
 
         if(!msg.getContent().toLowerCase().startsWith("wifey")) { return; }
@@ -52,7 +54,7 @@ public class ServerStatusCommands implements MessageCreateListener {
 
                 EmbedBuilder embed = new EmbedBuilder()
                         .setTitle("Server Status")
-                        .addField("Server IP", ms.getAddress())
+                        .addField("Server IP", ms.getAddress() + ":" + ms.getPort())
                         .addField("Server Status", "Offline")
                         .setImage(new File("./src/main/resources/server-icon.png"))
                         .setColor(Color.PINK);
