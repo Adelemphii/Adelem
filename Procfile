@@ -1,1 +1,1 @@
-worker: java -jar ./target/Adelem-1.0.jar
+worker: java -jar target/Adelem-1.0.jar
