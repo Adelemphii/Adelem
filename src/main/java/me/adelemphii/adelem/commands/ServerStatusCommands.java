@@ -18,7 +18,6 @@ public class ServerStatusCommands implements MessageCreateListener {
         if(event.getMessageAuthor().isBotUser()) { return; }
 
         Message msg = event.getMessage();
-        System.out.println("Message (" + event.getMessageAuthor() + ", content: " + msg.getContent() + ")");
 
         final Long MINECRAFT_CHANNEL_ID = 844913252597235723L;
         final Long TEST_CHANNEL_ID = 844958913178370132L;
@@ -26,6 +25,7 @@ public class ServerStatusCommands implements MessageCreateListener {
         // Prevent people from using the command outside my BT channel and #minecraft-whitelist
 
         if(msg.getChannel().getId() != MINECRAFT_CHANNEL_ID && msg.getChannel().getId() != TEST_CHANNEL_ID) { return; }
+        System.out.println("Message (" + event.getMessageAuthor() + ", content: " + msg.getContent() + ")");
 
         if(!msg.getContent().toLowerCase().startsWith("wifey")) { return; }
 
