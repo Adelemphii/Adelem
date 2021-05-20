@@ -1,9 +1,7 @@
 package me.adelemphii.adelem.commands;
 
 import me.adelemphii.adelem.util.MineStats;
-import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.entity.message.Message;
-import org.javacord.api.entity.message.embed.Embed;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.event.message.MessageCreateEvent;
 import org.javacord.api.listener.message.MessageCreateListener;
@@ -19,8 +17,8 @@ public class ServerStatusCommands implements MessageCreateListener {
 
         Message msg = event.getMessage();
 
-        final Long MINECRAFT_CHANNEL_ID = 844913252597235723L;
-        final Long TEST_CHANNEL_ID = 844958913178370132L;
+        final long MINECRAFT_CHANNEL_ID = 844913252597235723L;
+        final long TEST_CHANNEL_ID = 844958913178370132L;
 
         // Prevent people from using the command outside my BT channel and #minecraft-whitelist
 
