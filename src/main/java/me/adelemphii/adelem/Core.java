@@ -16,8 +16,7 @@ public class Core {
 
         api.addListener(new ServerStatusCommands());
 
-        api.updateActivity("Hey! I was made by Adelemphii so you should check out her Github!" +
-                " https://github.com/Adelemphii");
+        api.updateActivity("Use 'wifeyHelp' to see my commands!");
 
         System.out.println("You can invite the bot by using the following url: " + api.createBotInvite());
     }
