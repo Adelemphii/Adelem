@@ -9,17 +9,16 @@ import org.javacord.api.entity.user.UserStatus;
 public class Core {
 
     public static void main(String[] args) {
-
+        // (System.getenv("TOKEN"))
         DiscordApi api = new DiscordApiBuilder()
-                .setToken(System.getenv("TOKEN"))
+                .setToken("ODQ0OTU3NTQ4MTM0MDA2ODA2.YKZ-Cg.GyuyndNFkB0NsuFClz1-qj2MIVI")
                 .login().join();
 
         api.addListener(new ServerStatusCommands());
 
-        api.updateActivity("Type 'wifeyStatus' to check the status of the server!");
+        api.updateActivity("Hey! I was made by Adelemphii so you should check out her Github!" +
+                " https://github.com/Adelemphii");
 
         System.out.println("You can invite the bot by using the following url: " + api.createBotInvite());
-
     }
-
 }
