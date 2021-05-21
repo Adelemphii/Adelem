@@ -2,7 +2,6 @@ package me.adelemphii.adelem.commands;
 
 import me.adelemphii.adelem.util.MineStats;
 import org.javacord.api.entity.message.Message;
-import org.javacord.api.entity.message.embed.Embed;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.entity.user.User;
 import org.javacord.api.event.message.MessageCreateEvent;
@@ -10,11 +9,6 @@ import org.javacord.api.listener.message.MessageCreateListener;
 
 import java.awt.*;
 import java.io.File;
-import java.time.Clock;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TimeZone;
 
 public class ServerStatusCommands implements MessageCreateListener {
 
@@ -27,11 +21,13 @@ public class ServerStatusCommands implements MessageCreateListener {
         final String prefix = "wifey";
 
         final long MINECRAFT_CHANNEL_ID = 844913252597235723L;
+        final long BOT_COMMANDS_ID = 844574813511090226L;
         final long TEST_CHANNEL_ID = 844958913178370132L;
 
         // Prevent people from using the command outside my BT channel and #minecraft-whitelist
 
-        if(msg.getChannel().getId() != MINECRAFT_CHANNEL_ID && msg.getChannel().getId() != TEST_CHANNEL_ID) { return; }
+        if(msg.getChannel().getId() != MINECRAFT_CHANNEL_ID && msg.getChannel().getId() != TEST_CHANNEL_ID
+            && msg.getChannel().getId() != BOT_COMMANDS_ID) { return; }
         System.out.println("Message (" + event.getMessageAuthor() + ", content: " + msg.getContent() + ")");
 
         if(!msg.getContent().toLowerCase().startsWith(prefix)) { return; }
