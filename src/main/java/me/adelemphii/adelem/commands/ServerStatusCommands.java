@@ -46,11 +46,16 @@ public class ServerStatusCommands implements MessageCreateListener {
 
                 EmbedBuilder status = new EmbedBuilder()
                         .setTitle("Server Status")
+
                         .addField("MoTD", ms.getMotd())
                         .addField("Server IP", ms.getAddress() + ":" + ms.getPort())
                         .addField("Server Version", "1.16.5")
                         .addField("Capacity", onlinePlayers + "/" + maxPlayers)
-                        .addInlineField("Whitelist Status", "20/20 - FULL")
+                        .addField("Whitelist Status", "20/20 - FULL")
+
+                        .addInlineField("Playable Time EST", "3pm EST - 7am EST")
+                        .addInlineField("Playable Time BST", "8pm BST - 12pm BST")
+
                         .setThumbnail(new File("./src/main/resources/server-icon.png"))
                         .setFooter("Try using 'wifeyRules' to access the rules page!")
                         .setColor(Color.GREEN);
@@ -60,9 +65,14 @@ public class ServerStatusCommands implements MessageCreateListener {
 
                 EmbedBuilder status = new EmbedBuilder()
                         .setTitle("Server Status")
+
                         .addField("Server IP", ms.getAddress() + ":" + ms.getPort())
                         .addField("Server Status", "Offline")
-                        .addInlineField("Whitelist Status", "20/20 - FULL")
+                        .addField("Whitelist Status", "20/20 - FULL")
+
+                        .addInlineField("Playable Time EST", "3pm EST - 7am EST")
+                        .addInlineField("Playable Time BST", "8pm BST - 12pm BST")
+
                         .setThumbnail(new File("./src/main/resources/server-icon.png"))
                         .setFooter("Try using 'wifeyRules' to access the rules page!")
                         .setColor(Color.RED);
