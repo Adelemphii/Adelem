@@ -95,23 +95,23 @@ public class ServerStatusCommands implements MessageCreateListener {
 
         }
 
-        if(msg.getContent().equalsIgnoreCase(prefix + "help")) {
+        if(msg.getContent().equalsIgnoreCase("wifeyhelp")) {
 
             EmbedBuilder helpEmbed = new EmbedBuilder()
                     .setTitle("AdelemBot Command List")
 
                     .addField("wifeyStatus", "Displays the status of the SMP server!")
                     .addField("wifeyRules", "Displays the rules of the SMP server!")
+                    .addField("wifeyOnline - DM ONLY", "Displays the amount of players online!")
                     .addField("wifeyHelp", "Displays this information box!")
+                    .addField("Note:", "If you run the non-DM ONLY commands in a server, you get differing information")
 
                     .setFooter("This bot was made by Adelemphii#6213")
 
                     .setColor(Color.PINK);
 
-            event.getChannel().sendMessage("Message sent!");
-            User user = event.getMessageAuthor().asUser().get();
-            user.sendMessage(helpEmbed);
 
+            event.getChannel().sendMessage(helpEmbed);
         }
 
     }
