@@ -104,6 +104,7 @@ public class ServerStatusCommands implements MessageCreateListener {
                     .addField("wifeyRules", "Displays the rules of the SMP server!")
                     .addField("wifeyOnline - DM ONLY", "Displays the amount of players online!")
                     .addField("wifeyHelp", "Displays this information box!")
+                    .addField("wifeyStats - DM ONLY", "Displays the chosen statistic information!")
                     .addField("Note:", "If you run the non-DM ONLY commands in a server, you get differing information")
 
                     .setFooter("This bot was made by Adelemphii#6213")
