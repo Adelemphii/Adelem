@@ -77,22 +77,22 @@ public class ServerStatusCommands implements MessageCreateListener {
             }
         }
 
-        if(msg.getContent().equalsIgnoreCase(prefix + "rules")) {
+        if(msg.getContent().equalsIgnoreCase("wifeyrules")) {
 
             EmbedBuilder ruleEmbed = new EmbedBuilder()
                     .setTitle("SMP Rules")
-                    .addField("Rule 1", "No Griefing w/ TNT or Explosives")
+                    .addField("Rule 1", "No Griefing/Blowing up bases")
                     .addField("Rule 2", "No spawn camping")
+                    .addField("Rule 3", "Spawn Island is a safe zone")
 
                     .addInlineField("Playable Time EST", "3pm EST - 7am EST")
                     .addInlineField("Playable Time BST", "8pm BST - 12pm BST")
 
-                    .setThumbnail(new File("./src/main/resources/server-icon.png"))
                     .setFooter("Try using 'wifeyStatus' to check the status of the server!")
                     .setColor(Color.PINK);
 
             event.getChannel().sendMessage(ruleEmbed);
-
+            return;
         }
 
         if(msg.getContent().equalsIgnoreCase("wifeyhelp")) {
