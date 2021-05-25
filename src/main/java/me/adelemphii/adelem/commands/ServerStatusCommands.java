@@ -50,8 +50,8 @@ public class ServerStatusCommands implements MessageCreateListener {
                         .addField("Capacity", onlinePlayers + "/" + maxPlayers)
                         .addField("Whitelist Status", "20/20 - FULL")
 
-                        .addInlineField("Playable Time EST", "3pm EST - 7am EST")
-                        .addInlineField("Playable Time BST", "8pm BST - 12pm BST")
+                        .addInlineField("Playable Time EST", "2pm EST - 6am EST")
+                        .addInlineField("Playable Time BST", "7pm BST - 11am BST")
 
                         .setThumbnail(new File("./src/main/resources/server-icon.png"))
                         .setFooter("Try using 'wifeyRules' to access the rules page!")
@@ -67,8 +67,8 @@ public class ServerStatusCommands implements MessageCreateListener {
                         .addField("Server Status", "Offline")
                         .addField("Whitelist Status", "20/20 - FULL")
 
-                        .addInlineField("Playable Time EST", "3pm EST - 7am EST")
-                        .addInlineField("Playable Time BST", "8pm BST - 12pm BST")
+                        .addInlineField("Playable Time EST", "2pm EST - 6am EST")
+                        .addInlineField("Playable Time BST", "7pm BST - 11am BST")
 
                         .setThumbnail(new File("./src/main/resources/server-icon.png"))
                         .setFooter("Try using 'wifeyRules' to access the rules page!")
