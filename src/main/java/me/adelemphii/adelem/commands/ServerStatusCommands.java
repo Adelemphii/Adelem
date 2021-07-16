@@ -3,7 +3,6 @@ package me.adelemphii.adelem.commands;
 import me.adelemphii.adelem.util.MineStats;
 import org.javacord.api.entity.message.Message;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
-import org.javacord.api.entity.user.User;
 import org.javacord.api.event.message.MessageCreateEvent;
 import org.javacord.api.listener.message.MessageCreateListener;
 

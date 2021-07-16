@@ -1,0 +1,24 @@
+debug: false
+bot:
+  # Name of your bot
+  name: "placeholder name"
+
+  # Current version of your bot
+  version: "0.1"
+
+# Application - API Settings
+api:
+  # Twitch Application Client Id
+  twitch_client_id: YOUR_CLIENT_ID
+
+  # Twitch Application Client Secret
+  twitch_client_secret: YOUR_CLIENT_SECRET
+
+# Credentials
+credentials:
+  # OAuth Token for IRC USer (You can get yours here: http://twitchapps.com/tmi/)
+  irc: YOUR_IRC_TOKEN
+
+# Channels - The bot will connect to all listed channels
+channels:
+  - YOUR_CHANNEL
