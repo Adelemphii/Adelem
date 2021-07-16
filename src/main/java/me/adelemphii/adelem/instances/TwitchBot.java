@@ -1,24 +1,20 @@
 package me.adelemphii.adelem.instances;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.github.philippheuer.credentialmanager.domain.OAuth2Credential;
 import com.github.philippheuer.events4j.simple.SimpleEventHandler;
 import com.github.twitch4j.TwitchClient;
 import com.github.twitch4j.TwitchClientBuilder;
+import me.adelemphii.adelem.Core;
 import me.adelemphii.adelem.twitchevents.WriteChannelChatToConsole;
-import me.adelemphii.adelem.util.TwitchConfiguration;
-
-import java.io.InputStream;
+import me.adelemphii.adelem.util.Configuration;
 
 public class TwitchBot {
 
-    private TwitchConfiguration config;
+    private final Configuration config = Core.config;
 
-    private TwitchClient client;
+    private final TwitchClient client;
 
     public TwitchBot() {
-        loadConfiguration();
 
         TwitchClientBuilder builder = TwitchClientBuilder.builder();
 
@@ -36,21 +32,9 @@ public class TwitchBot {
                 // Chat Module
                 .withChatAccount(credential)
                 .withEnableChat(true)
+
+                .withEnableKraken(true)
                 .build();
-    }
-
-    private void loadConfiguration() {
-        try {
-            ClassLoader loader = Thread.currentThread().getContextClassLoader();
-            InputStream is = loader.getResourceAsStream("config.yml");
-
-            ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-            config = mapper.readValue(is, TwitchConfiguration.class);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            System.out.println("Unable to load Configuration ... Exiting.");
-            System.exit(1);
-        }
     }
 
     public void registerEvents() {
@@ -63,7 +47,6 @@ public class TwitchBot {
         // Connect to all channels
         for(String channel : config.getChannels()) {
             client.getChat().joinChannel(channel);
-            System.out.println("Connected to: " + channel);
         }
     }
 

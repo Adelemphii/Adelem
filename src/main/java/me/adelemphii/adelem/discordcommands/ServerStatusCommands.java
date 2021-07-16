@@ -1,4 +1,4 @@
-package me.adelemphii.adelem.commands;
+package me.adelemphii.adelem.discordcommands;
 
 import me.adelemphii.adelem.util.MineStats;
 import org.javacord.api.entity.message.Message;

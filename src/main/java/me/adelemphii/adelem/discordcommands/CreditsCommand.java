@@ -1,4 +1,4 @@
-package me.adelemphii.adelem.commands;
+package me.adelemphii.adelem.discordcommands;
 
 import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.entity.message.Message;

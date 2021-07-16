@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class TwitchConfiguration {
+public class Configuration {
 
     private Boolean debug;
 
@@ -17,6 +17,8 @@ public class TwitchConfiguration {
     private Map<String, String> credentials;
 
     private List<String> channels;
+
+    private boolean discordBroadcast;
 
     public Boolean getDebug() {
         return debug;
@@ -56,6 +58,14 @@ public class TwitchConfiguration {
 
     public void setChannels(List<String> channels) {
         this.channels = channels;
+    }
+
+    public boolean getDiscordBroadcast() {
+        return discordBroadcast;
+    }
+
+    public void setDiscordBroadcast(boolean broadcast) {
+        this.discordBroadcast = broadcast;
     }
 
     @Override
