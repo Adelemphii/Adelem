@@ -20,6 +20,8 @@ public class Configuration {
 
     private boolean discordBroadcast;
 
+    private List<String> webhooks;
+
     public Boolean getDebug() {
         return debug;
     }
@@ -66,6 +68,14 @@ public class Configuration {
 
     public void setDiscordBroadcast(boolean broadcast) {
         this.discordBroadcast = broadcast;
+    }
+
+    public List<String> getWebhooks() {
+        return webhooks;
+    }
+
+    public void setWebhooks(List<String> webhooks) {
+        this.webhooks = webhooks;
     }
 
     @Override

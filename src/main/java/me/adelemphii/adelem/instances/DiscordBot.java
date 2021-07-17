@@ -2,6 +2,7 @@ package me.adelemphii.adelem.instances;
 
 import me.adelemphii.adelem.discordcommands.CreditsCommand;
 import me.adelemphii.adelem.discordcommands.ServerStatusCommands;
+import me.adelemphii.adelem.discordevents.WriteDiscordChatToTwitch;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 
@@ -26,6 +27,7 @@ public class DiscordBot {
     private void registerListeners(DiscordApi api) {
         api.addListener(new ServerStatusCommands());
         api.addListener(new CreditsCommand());
+        api.addListener(new WriteDiscordChatToTwitch());
     }
 
     public DiscordApi getApi() {

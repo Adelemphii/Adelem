@@ -14,17 +14,20 @@ public class Core {
 
     public static DiscordBot discordBot;
 
+    public static TwitchBot twitchBot;
+
     public static void main(String[] args) {
         loadConfiguration();
 
         // Initialize Discord Bot
         discordBot = new DiscordBot();
-        discordBot.start();
 
         // Initialize Twitch Bot
-        TwitchBot twitchBot = new TwitchBot();
+        twitchBot = new TwitchBot();
         twitchBot.registerEvents();
+
         twitchBot.start();
+        discordBot.start();
 
     }
 
