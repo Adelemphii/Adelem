@@ -9,6 +9,8 @@ import org.javacord.api.DiscordApi;
 import org.javacord.api.entity.message.WebhookMessageBuilder;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class WriteChannelChatToDiscord {
 
@@ -38,9 +40,22 @@ public class WriteChannelChatToDiscord {
 
             String formattedMessage = payload.replaceAll("@everyone", "(I tried to @ everyone)");
 
+            Pattern pattern = Pattern.compile("https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)");
+            Matcher matcher = pattern.matcher(formattedMessage);
+
+            String link = "";
+            while(matcher.find()) {
+                link = matcher.group();
+            }
+
+            link = "<" + link + ">";
+
+            formattedMessage = formattedMessage.replaceAll(pattern.pattern(), link);
+
             WebhookMessageBuilder builder = new WebhookMessageBuilder();
             builder.setContent(formattedMessage);
-            builder.setDisplayName(author);
+
+            builder.setDisplayName("[" + event.getChannel().getName() + "] " + author);
             for(String webhook : webhooks)
                 builder.send(api, webhook);
         }

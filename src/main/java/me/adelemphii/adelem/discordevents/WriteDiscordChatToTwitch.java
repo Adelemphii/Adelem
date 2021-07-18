@@ -17,14 +17,17 @@ public class WriteDiscordChatToTwitch implements MessageCreateListener {
         if(event.getMessageAuthor().isBotUser()) return;
         if(event.getMessageAuthor().isWebhook()) return;
 
-        String formattedMessage = "[Discord] " + event.getMessageAuthor().getDisplayName() + ": " + event.getMessage().getContent();
+        String author = event.getMessageAuthor().getDisplayName();
+        String authorFormatted = author.replace('/', ' ');
+
+        String formattedMessage = "[Discord] " + authorFormatted + ": " + event.getMessage().getContent();
 
         for(String channel : TwitchBot.client.getChat().getChannels())
             TwitchBot.client.getChat().sendMessage(channel, formattedMessage);
 
 
         System.out.printf(
-                "Channel [%s] - User[%s] - Message [%s]%n",
+                "Channel [%s] - User[%s] - [%s]%n",
                 event.getChannel().getId(),
                 event.getMessageAuthor(),
                 event.getMessage()
