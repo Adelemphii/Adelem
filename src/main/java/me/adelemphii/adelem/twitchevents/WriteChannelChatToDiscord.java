@@ -1,14 +1,20 @@
 package me.adelemphii.adelem.twitchevents;
 
 import com.github.philippheuer.events4j.simple.SimpleEventHandler;
+import com.github.twitch4j.TwitchClient;
 import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
+import com.github.twitch4j.helix.domain.UserList;
 import me.adelemphii.adelem.Core;
 import me.adelemphii.adelem.util.Configuration;
 import org.apache.commons.lang.StringUtils;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.entity.message.WebhookMessageBuilder;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,6 +25,8 @@ public class WriteChannelChatToDiscord {
     private DiscordApi api = Core.discordBot.getApi();
 
     private List<String> webhooks = config.getWebhooks();
+
+    private TwitchClient client = Core.twitchBot.getClient();
 
     /**
      * Register events of this class with the EventManager/EventHandler
@@ -56,28 +64,35 @@ public class WriteChannelChatToDiscord {
             builder.setContent(formattedMessage);
 
             builder.setDisplayName("[" + event.getChannel().getName() + "] " + author);
-            for(String webhook : webhooks)
-                builder.send(api, webhook);
+            if(getUserProfilePicture(author) == null) {
+                for (String webhook : webhooks)
+                    builder.send(api, webhook);
+            }
+            else {
+                try {
+                    URL url = new URL(getUserProfilePicture(author));
+                    builder.setDisplayAvatar(url);
+
+                    for(String webhook : webhooks)
+                        builder.send(api, webhook);
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
-}
+    private String getUserProfilePicture(String author) {
+        AtomicReference<String> imageUrl = new AtomicReference<>("");
 
-            /*
-                Get Profile Picture From Viewer
-
-            try {
-                URL url = new URL("https://api.twitch.tv/helix/users?id=" + event.getUser().getId());
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-
-                connection.setRequestMethod("GET");
-                connection.setRequestProperty("Authorization", "ylyi0lcdgtfv18i42rd566ueshe634");
-                connection.setRequestProperty("Client-Id", "ayzr22fmzg2zvtd8ai2wyncqt2a0kz");
-
-                String profilePicture = (String)((JSONObject)new JSONParser().parse(new InputStreamReader(connection.getInputStream()))).get("profile_image_url");
-                builder.setDisplayAvatar(new URL(profilePicture));
-
-            } catch (IOException | ParseException e) {
-                e.printStackTrace();
+        UserList resultList = client.getHelix().getUsers(null, null, Arrays.asList(author)).execute();
+        resultList.getUsers().forEach(user -> {
+            if(user.getDisplayName().equalsIgnoreCase(author)) {
+                imageUrl.set(user.getProfileImageUrl());
             }
-             */
+        });
+        return imageUrl.toString();
+    }
+
+}

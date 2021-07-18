@@ -1,19 +1,23 @@
 package me.adelemphii.adelem.instances;
 
+import me.adelemphii.adelem.Core;
 import me.adelemphii.adelem.discordcommands.CreditsCommand;
 import me.adelemphii.adelem.discordcommands.ServerStatusCommands;
 import me.adelemphii.adelem.discordevents.WriteDiscordChatToTwitch;
+import me.adelemphii.adelem.util.Configuration;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 
 public class DiscordBot {
+
+    private Configuration config = Core.config;
 
     // Discord API
     private DiscordApi api;
 
     public DiscordBot() {
         api = new DiscordApiBuilder()
-                .setToken("ODQ0OTU3NTQ4MTM0MDA2ODA2.YKZ-Cg.GyuyndNFkB0NsuFClz1-qj2MIVI")
+                .setToken(config.getDiscordBotToken())
                 .login().join();
 
         registerListeners(api);

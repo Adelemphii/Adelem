@@ -6,6 +6,9 @@ import me.adelemphii.adelem.util.Configuration;
 import org.javacord.api.event.message.MessageCreateEvent;
 import org.javacord.api.listener.message.MessageCreateListener;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class WriteDiscordChatToTwitch implements MessageCreateListener {
 
     Configuration config = Core.config;
@@ -22,15 +25,19 @@ public class WriteDiscordChatToTwitch implements MessageCreateListener {
 
         String formattedMessage = "[Discord] " + authorFormatted + ": " + event.getMessage().getContent();
 
-        for(String channel : TwitchBot.client.getChat().getChannels())
-            TwitchBot.client.getChat().sendMessage(channel, formattedMessage);
+        Pattern pattern = Pattern.compile("([\"'])(?:(?=(\\\\?))\\2.)*?\\1");
+        Matcher matcher = pattern.matcher(formattedMessage);
 
+        String match = "";
+        while(matcher.find()) {
+            match = matcher.group();
+        }
 
-        System.out.printf(
-                "Channel [%s] - User[%s] - [%s]%n",
-                event.getChannel().getId(),
-                event.getMessageAuthor(),
-                event.getMessage()
-        );
+        for(String channel : config.getChannels()) {
+            if(match.equalsIgnoreCase("\"" + channel + "\"")) {
+                TwitchBot.client.getChat().sendMessage(channel, formattedMessage.replaceAll(pattern.pattern(), ""));
+                return;
+            }
+        }
     }
 }

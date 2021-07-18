@@ -5,6 +5,7 @@ import com.github.philippheuer.events4j.simple.SimpleEventHandler;
 import com.github.twitch4j.TwitchClient;
 import com.github.twitch4j.TwitchClientBuilder;
 import me.adelemphii.adelem.Core;
+import me.adelemphii.adelem.twitchevents.LinkTwitchChatsTogether;
 import me.adelemphii.adelem.twitchevents.WriteChannelChatToConsole;
 import me.adelemphii.adelem.twitchevents.WriteChannelChatToDiscord;
 import me.adelemphii.adelem.twitchevents.WriteChannelLiveStatus;
@@ -44,6 +45,7 @@ public class TwitchBot {
 
         WriteChannelChatToConsole writeChannelChatToConsole = new WriteChannelChatToConsole(eventHandler);
         WriteChannelLiveStatus writeChannelLiveStatus = new WriteChannelLiveStatus(eventHandler);
+        LinkTwitchChatsTogether linkTwitchChatsTogether = new LinkTwitchChatsTogether(eventHandler);
 
         if(!config.getDiscordBroadcast() || config.getWebhooks() == null) System.out.println("[TwitchBot]: Discord Broadcast Disabled (Check config)");
         else {
@@ -56,6 +58,8 @@ public class TwitchBot {
         for(String channel : config.getChannels()) {
             client.getChat().joinChannel(channel);
         }
+
+
     }
 
     public TwitchClient getClient() {

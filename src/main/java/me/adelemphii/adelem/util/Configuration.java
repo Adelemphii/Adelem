@@ -22,6 +22,10 @@ public class Configuration {
 
     private List<String> webhooks;
 
+    private boolean chatLink;
+
+    private String discordBotToken;
+
     public Boolean getDebug() {
         return debug;
     }
@@ -78,6 +82,26 @@ public class Configuration {
         this.webhooks = webhooks;
     }
 
+    public boolean hasWebhooks() {
+        return !webhooks.isEmpty();
+    }
+
+    public boolean getChatLink() {
+        return chatLink;
+    }
+
+    public void setChatLink(boolean chatLink) {
+        this.chatLink = chatLink;
+    }
+
+    public String getDiscordBotToken() {
+        return discordBotToken;
+    }
+
+    public void setDiscordBotToken(String discordBotToken) {
+        this.discordBotToken = discordBotToken;
+    }
+
     @Override
     public String toString() {
         return "Configuration{" +
@@ -85,6 +109,8 @@ public class Configuration {
                 ", api=" + api +
                 ", credentials=" + credentials +
                 ", channels=" + channels +
+                ", discord broadcast=" + discordBroadcast +
+                ", has webhooks=" + hasWebhooks() +
                 '}';
     }
 }
