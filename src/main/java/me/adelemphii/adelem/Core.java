@@ -29,12 +29,9 @@ public class Core {
         twitchBot.start();
         discordBot.start();
 
-        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-            @Override
-            public void run() {
-                twitchBot.stop();
-                discordBot.stop();
-            }
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            twitchBot.stop();
+            discordBot.stop();
         }, "Shutdown-thread"));
     }
 

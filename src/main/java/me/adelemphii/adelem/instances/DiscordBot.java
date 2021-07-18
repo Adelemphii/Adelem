@@ -59,6 +59,8 @@ public class DiscordBot {
 
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
         executor.scheduleAtFixedRate(statusRunnable, 0, 10, TimeUnit.SECONDS);
+
+        this.statusRunnable = executor;
     }
 
 }
