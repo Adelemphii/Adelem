@@ -1,7 +1,8 @@
 debug: false
+discordBotToken: YOUR_DISCORD_BOT_TOKEN_HERE
 bot:
   # Name of your bot
-  name: "phiiBot"
+  name: "BOTNAME"
 
   # Current version of your bot
   version: "0.1"
@@ -9,18 +10,26 @@ bot:
 # Application - API Settings
 api:
   # Twitch Application Client Id
-  twitch_client_id: ayzr22fmzg2zvtd8ai2wyncqt2a0kz
+  twitch_client_id: ID_HERE
 
   # Twitch Application Client Secret
-  twitch_client_secret: 6r6uh8r8bq2h6whphv6szpwuhuks1e
+  twitch_client_secret: CLIENT_SECRET_HERE
 
 # Credentials
 credentials:
   # OAuth Token for IRC USer (You can get yours here: http://twitchapps.com/tmi/)
-  irc: oauth:ylyi0lcdgtfv18i42rd566ueshe634
+  irc: OAUTH_HERE
 
 # Channels - The bot will connect to all listed channels
 channels:
-  - Adelemphii
+  - YOURCHANNEL(S)_HERE
 
+# Choose to enable broadcasting to discord webhooks
 discordBroadcast: true
+
+# Choose to link twitch chats together
+chatLink: false
+
+# Webhook to channels to broadcast to
+webhooks:
+  - WEBHOOKS_HERE
