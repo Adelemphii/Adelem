@@ -1,12 +1,16 @@
 package me.adelemphii.adelem.instances;
 
 import me.adelemphii.adelem.Core;
-import me.adelemphii.adelem.discordcommands.CreditsCommand;
-import me.adelemphii.adelem.discordcommands.ServerStatusCommands;
 import me.adelemphii.adelem.discordevents.WriteDiscordChatToTwitch;
 import me.adelemphii.adelem.util.Configuration;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
+import org.javacord.api.entity.activity.ActivityType;
+
+import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class DiscordBot {
 
@@ -21,21 +25,35 @@ public class DiscordBot {
                 .login().join();
 
         registerListeners(api);
+        startActivityUpdateTask();
     }
 
     public void start() {
-        api.updateActivity("Use 'wifeyHelp' to see my commands!");
         System.out.println("You can invite the bot by using the following url: " + api.createBotInvite());
     }
 
     private void registerListeners(DiscordApi api) {
-        api.addListener(new ServerStatusCommands());
-        api.addListener(new CreditsCommand());
         api.addListener(new WriteDiscordChatToTwitch());
     }
 
     public DiscordApi getApi() {
         return api;
+    }
+
+    private void startActivityUpdateTask() {
+        Runnable helloRunnable = new Runnable() {
+            public void run() {
+                List<String> channels = config.getChannels();
+
+                double randomIndex = Math.floor(Math.random() * (channels.size() - 1) + 1);
+
+                api.updateActivity(ActivityType.WATCHING, channels.get((int) randomIndex));
+
+            }
+        };
+
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+        executor.scheduleAtFixedRate(helloRunnable, 0, 10, TimeUnit.SECONDS);
     }
 
 }
