@@ -77,7 +77,7 @@ public class WriteChannelChatToDiscord {
                         builder.send(api, webhook);
 
                 } catch (MalformedURLException e) {
-                    e.printStackTrace();
+                    System.getLogger(e.getMessage());
                 }
             }
         }
