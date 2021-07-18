@@ -16,6 +16,8 @@ public class DiscordBot {
 
     private Configuration config = Core.config;
 
+    private ScheduledExecutorService statusRunnable;
+
     // Discord API
     private DiscordApi api;
 
@@ -32,6 +34,11 @@ public class DiscordBot {
         System.out.println("You can invite the bot by using the following url: " + api.createBotInvite());
     }
 
+    public void stop() {
+        api.disconnect();
+        statusRunnable.shutdown();
+    }
+
     private void registerListeners(DiscordApi api) {
         api.addListener(new WriteDiscordChatToTwitch());
     }
@@ -41,19 +48,17 @@ public class DiscordBot {
     }
 
     private void startActivityUpdateTask() {
-        Runnable helloRunnable = new Runnable() {
-            public void run() {
-                List<String> channels = config.getChannels();
+        Runnable statusRunnable = () -> {
+            List<String> channels = config.getChannels();
 
-                double randomIndex = Math.floor(Math.random() * (channels.size() - 1) + 1);
+            double randomIndex = Math.floor(Math.random() * (channels.size() - 1) + 1);
 
-                api.updateActivity(ActivityType.WATCHING, channels.get((int) randomIndex));
+            api.updateActivity(ActivityType.WATCHING, channels.get((int) randomIndex));
 
-            }
         };
 
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-        executor.scheduleAtFixedRate(helloRunnable, 0, 10, TimeUnit.SECONDS);
+        executor.scheduleAtFixedRate(statusRunnable, 0, 10, TimeUnit.SECONDS);
     }
 
 }

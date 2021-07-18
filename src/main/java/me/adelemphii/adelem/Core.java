@@ -29,6 +29,13 @@ public class Core {
         twitchBot.start();
         discordBot.start();
 
+        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+            @Override
+            public void run() {
+                twitchBot.stop();
+                discordBot.stop();
+            }
+        }, "Shutdown-thread"));
     }
 
     private static void loadConfiguration() {
@@ -38,6 +45,7 @@ public class Core {
 
             ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
             config = mapper.readValue(is, Configuration.class);
+            is.close();
         } catch (Exception ex) {
             ex.printStackTrace();
             System.out.println("Unable to load Configuration ... Exiting.");

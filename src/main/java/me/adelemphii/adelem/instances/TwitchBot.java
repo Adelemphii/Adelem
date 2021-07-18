@@ -58,8 +58,13 @@ public class TwitchBot {
         for(String channel : config.getChannels()) {
             client.getChat().joinChannel(channel);
         }
+    }
 
-
+    public void stop() {
+        for(String channel : config.getChannels()) {
+            client.getChat().leaveChannel(channel);
+        }
+        client.getChat().disconnect();
     }
 
     public TwitchClient getClient() {
