@@ -33,3 +33,7 @@ chatLink: false
 # Webhook to channels to broadcast to
 webhooks:
   - WEBHOOKS_HERE
+  
+# Choose which channels to get input from for the Discord bot
+specifyDiscordChannels:
+  - CHANNEL_ID_HERE
