@@ -26,6 +26,8 @@ public class Configuration {
 
     private String discordBotToken;
 
+    private List<Long> specifyDiscordChannels;
+
     public Boolean getDebug() {
         return debug;
     }
@@ -100,6 +102,14 @@ public class Configuration {
 
     public void setDiscordBotToken(String discordBotToken) {
         this.discordBotToken = discordBotToken;
+    }
+
+    public void setSpecifyDiscordChannels(List<Long> specifyDiscordChannels) {
+        this.specifyDiscordChannels = specifyDiscordChannels;
+    }
+
+    public List<Long> getSpecifyDiscordChannels() {
+        return specifyDiscordChannels;
     }
 
     @Override

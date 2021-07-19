@@ -15,7 +15,9 @@ public class WriteDiscordChatToTwitch implements MessageCreateListener {
 
     @Override
     public void onMessageCreate(MessageCreateEvent event) {
-        if(event.getChannel().getId() != 865687218742624286L) return;
+        for(Long channel : config.getSpecifyDiscordChannels()) {
+            if(event.getChannel().getId() != channel) return;
+        }
 
         if(event.getMessageAuthor().isBotUser()) return;
         if(event.getMessageAuthor().isWebhook()) return;
