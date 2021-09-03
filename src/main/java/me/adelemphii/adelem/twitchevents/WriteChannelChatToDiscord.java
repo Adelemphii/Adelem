@@ -44,7 +44,7 @@ public class WriteChannelChatToDiscord {
         if(config.getDiscordBroadcast()) {
 
             String payload = event.getMessage();
-            String author = StringUtils.capitalize(event.getUser().getName());
+            String author = event.getMessageEvent().getTagValue("display-name").orElse(event.getUser().getName());
 
             String formattedMessage = payload.replaceAll("@everyone", "(I tried to @ everyone)");
 

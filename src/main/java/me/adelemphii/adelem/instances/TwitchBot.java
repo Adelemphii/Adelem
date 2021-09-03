@@ -44,16 +44,16 @@ public class TwitchBot {
     public void registerEvents() {
         SimpleEventHandler eventHandler = client.getEventManager().getEventHandler(SimpleEventHandler.class);
 
-        WriteChannelChatToConsole writeChannelChatToConsole = new WriteChannelChatToConsole(eventHandler);
-        WriteChannelLiveStatus writeChannelLiveStatus = new WriteChannelLiveStatus(eventHandler);
-        LinkTwitchChatsTogether linkTwitchChatsTogether = new LinkTwitchChatsTogether(eventHandler);
-
-        CommandFollowAge commandFollowAge = new CommandFollowAge(eventHandler);
+        new WriteChannelChatToConsole(eventHandler);
+        new WriteChannelLiveStatus(eventHandler);
+        new LinkTwitchChatsTogether(eventHandler);
 
         if(!config.getDiscordBroadcast() || config.getWebhooks() == null) System.out.println("[TwitchBot]: Discord Broadcast Disabled (Check config)");
         else {
-            WriteChannelChatToDiscord writeChannelChatToDiscord = new WriteChannelChatToDiscord(eventHandler);
+            new WriteChannelChatToDiscord(eventHandler);
         }
+
+        new CommandFollowAge(eventHandler);
     }
 
     public void start() {
