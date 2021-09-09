@@ -2,7 +2,7 @@ debug: false
 discordBotToken: 
 bot:
   # Name of your bot
-  name: "phiiBee"
+  name: "placeholder"
 
   # Current version of your bot
   version: "0.1"
