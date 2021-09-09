@@ -1,8 +1,8 @@
 debug: false
-discordBotToken: YOUR_DISCORD_BOT_TOKEN_HERE
+discordBotToken: ODQ0OTU3NTQ4MTM0MDA2ODA2.YKZ-Cg.2PMOu8dPDZPA9ObJ5Rg55RmhToU
 bot:
   # Name of your bot
-  name: "BOTNAME"
+  name: "phiiBee"
 
   # Current version of your bot
   version: "0.1"
@@ -10,19 +10,19 @@ bot:
 # Application - API Settings
 api:
   # Twitch Application Client Id
-  twitch_client_id: ID_HERE
+  twitch_client_id: 72p9g61l5rd5kwpjtajo0ldd331xbr
 
   # Twitch Application Client Secret
-  twitch_client_secret: CLIENT_SECRET_HERE
+  twitch_client_secret: cbzjaqgvsfttp0i82mmpumma3o0ny3
 
 # Credentials
 credentials:
   # OAuth Token for IRC USer (You can get yours here: http://twitchapps.com/tmi/)
-  irc: OAUTH_HERE
+  irc: oauth:2mjn61zsq5075yx6ecnzm0ifn1odjz
 
 # Channels - The bot will connect to all listed channels
 channels:
-  - YOURCHANNEL(S)_HERE
+  - adelemphii
 
 # Choose to enable broadcasting to discord webhooks
 discordBroadcast: true
@@ -32,8 +32,12 @@ chatLink: false
 
 # Webhook to channels to broadcast to
 webhooks:
-  - WEBHOOKS_HERE
-  
+  - https://discord.com/api/webhooks/865693060447993906/Y8JoHSQPMoj7zseSvyJkQgAePEQAEQJjwldCytwCRLSjQOqJkQF2aFak1ickOKzSQyPh
+
 # Choose which channels to get input from for the Discord bot
 specifyDiscordChannels:
-  - CHANNEL_ID_HERE
+  - 865687218742624286
+
+twitchSimpleLockdownCommands:
+  - slow
+  - followers

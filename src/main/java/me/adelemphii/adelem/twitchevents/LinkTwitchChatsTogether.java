@@ -26,7 +26,7 @@ public class LinkTwitchChatsTogether {
         if(!config.getChatLink()) return;
 
         String author = StringUtils.capitalize(event.getUser().getName());
-        String fromChat = StringUtils.capitalize(event.getChannel().getName());
+        String fromChat = event.getMessageEvent().getTagValue("display-name").orElse(event.getUser().getName());
 
         String payload = "[Channel- " + fromChat + "]: " + event.getMessage() + " [Author: " + author + "]";
 

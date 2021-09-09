@@ -7,6 +7,8 @@ import me.adelemphii.adelem.instances.TwitchBot;
 import me.adelemphii.adelem.util.Configuration;
 
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Core {
 
@@ -15,6 +17,8 @@ public class Core {
     public static DiscordBot discordBot;
 
     public static TwitchBot twitchBot;
+
+    public Map<String, String> channelRoomstates = new HashMap<>();
 
     public static void main(String[] args) {
         loadConfiguration();
@@ -32,6 +36,9 @@ public class Core {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             twitchBot.stop();
             discordBot.stop();
+            System.out.println();
+
+            System.out.println("Shutting down...");
         }, "Shutdown-thread"));
     }
 

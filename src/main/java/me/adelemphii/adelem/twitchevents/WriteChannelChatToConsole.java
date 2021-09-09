@@ -2,7 +2,6 @@ package me.adelemphii.adelem.twitchevents;
 
 import com.github.philippheuer.events4j.simple.SimpleEventHandler;
 import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
-import org.apache.commons.lang.StringUtils;
 
 public class WriteChannelChatToConsole {
 
@@ -19,7 +18,7 @@ public class WriteChannelChatToConsole {
      * Subscribe to the ChannelMessage Event and write the output to the console
      */
     public void onChannelMessage(ChannelMessageEvent event) {
-        String author = StringUtils.capitalize(event.getUser().getName());
+        String author = event.getMessageEvent().getTagValue("display-name").orElse(event.getUser().getName());
 
         System.out.printf(
                 "[Twitch] Channel [%s] - User[%s] - Message [%s]%n" +
