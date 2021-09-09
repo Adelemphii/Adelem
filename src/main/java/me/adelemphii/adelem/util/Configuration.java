@@ -28,16 +28,6 @@ public class Configuration {
 
     private List<Long> specifyDiscordChannels;
 
-    private List<String> twitchSimpleLockdownCommands;
-
-    public List<String> getTwitchSimpleLockdownCommands() {
-        return twitchSimpleLockdownCommands;
-    }
-
-    public void setTwitchSimpleLockdownCommands(List<String> twitchSimpleLockdownCommands) {
-        this.twitchSimpleLockdownCommands = twitchSimpleLockdownCommands;
-    }
-
     public Boolean getDebug() {
         return debug;
     }
