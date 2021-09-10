@@ -11,6 +11,7 @@ import java.awt.*;
 import java.io.PrintStream;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
 public class Menu extends JFrame {
     private JPanel consolePanel;
@@ -51,6 +52,9 @@ public class Menu extends JFrame {
 
     private void configureSettings() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        ImageIcon icon = new ImageIcon(Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource("birbpog-twitch.png")));
+        if(icon.getImage() != null) setIconImage(icon.getImage());
 
         PrintStream con=new PrintStream(new TextAreaOutputStream(consoleTextArea));
         System.setOut(con);
