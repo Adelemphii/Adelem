@@ -3,15 +3,20 @@ package me.adelemphii.adelem;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import me.adelemphii.adelem.botinstance.TwitchBot;
+import me.adelemphii.adelem.menus.Menu;
 import me.adelemphii.adelem.util.Configuration;
 
+import javax.swing.*;
 import java.io.InputStream;
 
 public class Core {
 
     public static Configuration config;
-
     public static TwitchBot twitchBot;
+
+    public static Menu consoleMenu;
+
+    private static String channelChosen;
 
     public static void main(String[] args) {
         loadConfiguration();
@@ -21,6 +26,15 @@ public class Core {
         twitchBot.registerEvents();
 
         twitchBot.start();
+
+        if(config.getConsole()) {
+            try {
+                consoleMenu = new Menu();
+                consoleMenu.setVisible(true);
+            } catch (UnsupportedLookAndFeelException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             twitchBot.stop();
@@ -44,4 +58,13 @@ public class Core {
             System.exit(1);
         }
     }
+
+    public static String getChannelChosen() {
+        return channelChosen;
+    }
+
+    public static void setChannelChosen(String channelChosen) {
+        Core.channelChosen = channelChosen;
+    }
+
 }

@@ -18,6 +18,16 @@ public class Configuration {
 
     private List<String> channels;
 
+    private Boolean console;
+
+    public Boolean getConsole() {
+        return console;
+    }
+
+    public void setConsole(Boolean console) {
+        this.console = console;
+    }
+
     public Boolean getDebug() {
         return debug;
     }
@@ -61,10 +71,10 @@ public class Configuration {
     @Override
     public String toString() {
         return "Configuration{" +
-                "bot=" + bot +
-                ", api=" + api +
-                ", credentials=" + credentials +
-                ", channels=" + channels +
+                "\nbot=" + bot +
+                ", \napi=" + api +
+                ", \ncredentials=" + credentials +
+                ", \nchannels=" + channels +
                 '}';
     }
 }

@@ -2,6 +2,7 @@ package me.adelemphii.adelem.twitchevents;
 
 import com.github.philippheuer.events4j.simple.SimpleEventHandler;
 import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
+import me.adelemphii.adelem.Core;
 
 public class WriteChannelChatToConsole {
 
@@ -20,14 +21,7 @@ public class WriteChannelChatToConsole {
     public void onChannelMessage(ChannelMessageEvent event) {
         String author = event.getMessageEvent().getTagValue("display-name").orElse(event.getUser().getName());
 
-        System.out.printf(
-                "[Twitch] Channel [%s] - User[%s] - Message [%s]%n" +
-                        "User ID[%s]%n",
-                event.getChannel().getName(),
-                author,
-                event.getMessage(),
-                event.getUser().getId()
-        );
+        Core.consoleMenu.sendMessageToTwitch(event.getChannel().getName(), author, event.getMessage());
     }
 
 }

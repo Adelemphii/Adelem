@@ -50,7 +50,13 @@ public class TwitchBot {
 
     public void start() {
         // Connect to all channels
+        boolean first = false;
+
         for(String channel : config.getChannels()) {
+            if(!first) {
+                Core.setChannelChosen(channel);
+                first = true;
+            }
             client.getChat().joinChannel(channel);
         }
     }

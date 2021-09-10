@@ -5,13 +5,9 @@ import com.github.twitch4j.chat.events.channel.HostOffEvent;
 import com.github.twitch4j.chat.events.channel.HostOnEvent;
 import com.github.twitch4j.events.ChannelGoLiveEvent;
 import com.github.twitch4j.events.ChannelGoOfflineEvent;
-import me.adelemphii.adelem.Core;
-import me.adelemphii.adelem.util.Configuration;
 import org.apache.commons.lang.StringUtils;
 
 public class WriteChannelLiveStatus {
-
-    private final Configuration config = Core.config;
 
     public WriteChannelLiveStatus(SimpleEventHandler eventHandler) {
         eventHandler.onEvent(ChannelGoLiveEvent.class, this::onChanneGolLive);
@@ -23,21 +19,21 @@ public class WriteChannelLiveStatus {
     public void onChanneGolLive(ChannelGoLiveEvent event) {
         System.out.printf(
                 "Channel[%s] - Is now live%n",
-                StringUtils.capitalize(event.getChannel().getName())
+                StringUtils.upperCase(event.getChannel().getName())
         );
     }
 
     public void onChannelGoOffline(ChannelGoOfflineEvent event) {
         System.out.printf(
                 "Channel[%s] - Is now offline%n",
-                StringUtils.capitalize(event.getChannel().getName())
+                StringUtils.upperCase(event.getChannel().getName())
         );
     }
 
     public void onChannelHost(HostOnEvent event) {
         System.out.printf(
                 "Channel[%s] - Is now hosting [%s]%n",
-                StringUtils.capitalize(event.getChannel().getName()),
+                StringUtils.upperCase(event.getChannel().getName()),
                 event.getTargetChannel().getName()
         );
     }
