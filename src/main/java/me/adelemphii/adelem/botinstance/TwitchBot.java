@@ -1,14 +1,12 @@
-package me.adelemphii.adelem.instances;
+package me.adelemphii.adelem.botinstance;
 
 import com.github.philippheuer.credentialmanager.domain.OAuth2Credential;
 import com.github.philippheuer.events4j.simple.SimpleEventHandler;
 import com.github.twitch4j.TwitchClient;
 import com.github.twitch4j.TwitchClientBuilder;
 import me.adelemphii.adelem.Core;
-import me.adelemphii.adelem.commands.twitchcommands.CommandHandler;
-import me.adelemphii.adelem.twitchevents.LinkTwitchChatsTogether;
+import me.adelemphii.adelem.commands.CommandHandler;
 import me.adelemphii.adelem.twitchevents.WriteChannelChatToConsole;
-import me.adelemphii.adelem.twitchevents.WriteChannelChatToDiscord;
 import me.adelemphii.adelem.twitchevents.WriteChannelLiveStatus;
 import me.adelemphii.adelem.util.Configuration;
 
@@ -46,12 +44,6 @@ public class TwitchBot {
 
         new WriteChannelChatToConsole(eventHandler);
         new WriteChannelLiveStatus(eventHandler);
-        new LinkTwitchChatsTogether(eventHandler);
-
-        if(!config.getDiscordBroadcast() || config.getWebhooks() == null) System.out.println("[TwitchBot]: Discord Broadcast Disabled (Check config)");
-        else {
-            new WriteChannelChatToDiscord(eventHandler);
-        }
 
         new CommandHandler(eventHandler);
     }

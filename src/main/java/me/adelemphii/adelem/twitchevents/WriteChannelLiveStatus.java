@@ -8,14 +8,10 @@ import com.github.twitch4j.events.ChannelGoOfflineEvent;
 import me.adelemphii.adelem.Core;
 import me.adelemphii.adelem.util.Configuration;
 import org.apache.commons.lang.StringUtils;
-import org.javacord.api.DiscordApi;
-import org.javacord.api.entity.message.WebhookMessageBuilder;
 
 public class WriteChannelLiveStatus {
 
     private final Configuration config = Core.config;
-
-    private final DiscordApi api = Core.discordBot.getApi();
 
     public WriteChannelLiveStatus(SimpleEventHandler eventHandler) {
         eventHandler.onEvent(ChannelGoLiveEvent.class, this::onChanneGolLive);
@@ -29,15 +25,6 @@ public class WriteChannelLiveStatus {
                 "Channel[%s] - Is now live%n",
                 StringUtils.capitalize(event.getChannel().getName())
         );
-
-        if(config.getDiscordBroadcast()) {
-            String payload = "Channel[" + StringUtils.capitalize(event.getChannel().getName()) + "] - Is now live.";
-
-            for(String webhook : config.getWebhooks())
-                new WebhookMessageBuilder()
-                        .setContent(payload)
-                        .send(api, webhook);
-        }
     }
 
     public void onChannelGoOffline(ChannelGoOfflineEvent event) {
@@ -45,15 +32,6 @@ public class WriteChannelLiveStatus {
                 "Channel[%s] - Is now offline%n",
                 StringUtils.capitalize(event.getChannel().getName())
         );
-
-        if(config.getDiscordBroadcast()) {
-            String payload = "Channel[" + StringUtils.capitalize(event.getChannel().getName()) + "] - Is now offline.";
-
-            for(String webhook : config.getWebhooks())
-                new WebhookMessageBuilder()
-                        .setContent(payload)
-                        .send(api, webhook);
-        }
     }
 
     public void onChannelHost(HostOnEvent event) {
@@ -62,15 +40,6 @@ public class WriteChannelLiveStatus {
                 StringUtils.capitalize(event.getChannel().getName()),
                 event.getTargetChannel().getName()
         );
-
-        if(config.getDiscordBroadcast()) {
-            String payload = "Channel[" + StringUtils.capitalize(event.getChannel().getName()) + "] - Is now hosting " + event.getTargetChannel().getName();
-
-            for(String webhook : config.getWebhooks())
-            new WebhookMessageBuilder()
-                    .setContent(payload)
-                    .send(api, webhook);
-        }
     }
 
     public void onChannelStopHost(HostOffEvent event) {
@@ -78,14 +47,5 @@ public class WriteChannelLiveStatus {
                 "Channel[%s] - Is no longer hosting anyone%n",
                 StringUtils.capitalize(event.getChannel().getName())
         );
-
-        if(config.getDiscordBroadcast()) {
-            String payload = "Channel[" + StringUtils.capitalize(event.getChannel().getName()) + "] - Is no longer hosting anyone.";
-            
-            for(String webhook : config.getWebhooks())
-                new WebhookMessageBuilder()
-                        .setContent(payload)
-                        .send(api, webhook);
-        }
     }
 }

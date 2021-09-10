@@ -1,4 +1,4 @@
-package me.adelemphii.adelem.commands.twitchcommands;
+package me.adelemphii.adelem.commands;
 
 import com.github.philippheuer.events4j.simple.SimpleEventHandler;
 import com.github.twitch4j.TwitchClient;
@@ -29,10 +29,6 @@ public class CommandHandler {
 
         List<String> args = Arrays.asList(event.getMessage().split(" "));
         if(args.isEmpty()) return;
-
-        if(args.get(0).equalsIgnoreCase("!following")) {
-            CommandFollowAge.runCommand(event);
-        }
 
         if(args.get(0).equalsIgnoreCase("!lockdown")) {
             CommandLockDown.runCommand(event);

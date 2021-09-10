@@ -62,18 +62,6 @@
     </build>
 
     <dependencies>
-        <!--- Discord API Dependency -->
-        <dependency>
-            <groupId>org.javacord</groupId>
-            <artifactId>javacord</artifactId>
-            <version>3.3.2</version>
-            <type>pom</type>
-        </dependency>
-        <dependency>
-            <groupId>com.github.cliftonlabs</groupId>
-            <artifactId>json-simple</artifactId>
-            <version>3.1.0</version>
-        </dependency>
         <!--- Twitch4j API Wrapper -->
         <dependency>
             <groupId>com.github.twitch4j</groupId>

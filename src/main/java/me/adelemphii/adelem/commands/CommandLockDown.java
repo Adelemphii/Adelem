@@ -1,4 +1,4 @@
-package me.adelemphii.adelem.commands.twitchcommands;
+package me.adelemphii.adelem.commands;
 
 import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
 import com.github.twitch4j.common.enums.CommandPermission;

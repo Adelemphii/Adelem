@@ -2,40 +2,28 @@ package me.adelemphii.adelem;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import me.adelemphii.adelem.instances.DiscordBot;
-import me.adelemphii.adelem.instances.TwitchBot;
+import me.adelemphii.adelem.botinstance.TwitchBot;
 import me.adelemphii.adelem.util.Configuration;
 
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Core {
 
     public static Configuration config;
 
-    public static DiscordBot discordBot;
-
     public static TwitchBot twitchBot;
-
-    public Map<String, String> channelRoomstates = new HashMap<>();
 
     public static void main(String[] args) {
         loadConfiguration();
-
-        // Initialize Discord Bot
-        discordBot = new DiscordBot();
 
         // Initialize Twitch Bot
         twitchBot = new TwitchBot();
         twitchBot.registerEvents();
 
         twitchBot.start();
-        discordBot.start();
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             twitchBot.stop();
-            discordBot.stop();
             System.out.println();
 
             System.out.println("Shutting down...");
