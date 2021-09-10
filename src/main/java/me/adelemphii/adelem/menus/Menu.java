@@ -1,6 +1,10 @@
 package me.adelemphii.adelem.menus;
 
 import me.adelemphii.adelem.Core;
+import me.adelemphii.adelem.commands.CommandLockDown;
+import org.pushingpixels.substance.api.SubstanceCortex;
+import org.pushingpixels.substance.api.skin.GraphiteChalkSkin;
+import org.pushingpixels.substance.api.skin.SubstanceGraphiteChalkLookAndFeel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -45,7 +49,7 @@ public class Menu extends JFrame {
         });
     }
 
-    private void configureSettings() throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+    private void configureSettings() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         PrintStream con=new PrintStream(new TextAreaOutputStream(consoleTextArea));
@@ -53,29 +57,37 @@ public class Menu extends JFrame {
         System.setErr(con);
 
         add(consolePanel);
-        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        //UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        setDefaultLookAndFeelDecorated(true);
+
+        SwingUtilities.invokeLater(() -> {
+            try {
+                UIManager.setLookAndFeel(new SubstanceGraphiteChalkLookAndFeel());
+                SubstanceCortex.GlobalScope.setSkin(new GraphiteChalkSkin());
+            } catch(Exception e) {
+                System.out.println("Substance Graphite Chalk L&F failed to initialize!");
+            }
+        });
+
 
         setSize(620, 830);
         setMinimumSize(new Dimension(820, 255));
         setTitle("Bot Console");
 
         // Please help, I can't make GUIs..
-        consolePanel.setBackground(Color.BLACK);
-        consoleTab.setBackground(Color.BLACK);
-        configTab.setBackground(Color.BLACK);
-
-        tabs.setBackground(Color.GRAY);
-        channelBox.setBackground(Color.GRAY);
-        configText.setBackground(Color.GRAY);
-        configText.setForeground(Color.WHITE);
-
-        saveButton.setBackground(Color.GRAY);
     }
 
     public void sendMessageToTwitch(String channel, String user, String text) {
         Date date = Calendar.getInstance().getTime();
+        String payload = "[" + date + "] " + user + ": " + text + " \n\t-Channel: " + channel.toUpperCase() + "\n";
+        if(text.contains("!lockdown")) {
+            CommandLockDown.runCommand(channel, user, text);
+            consoleTextArea.append(payload);
+            consoleTextArea.append("Lockdown Enabled/Disabled!\n");
+            return;
+        }
 
-        consoleTextArea.append("[" + date + "] " + user + ": " + text + " \n\t-Sent in: " + channel.toUpperCase() + "\n");
+        consoleTextArea.append(payload);
         Core.twitchBot.getClient().getChat().sendMessage(Core.getChannelChosen(), chatInput.getText());
     }
 }

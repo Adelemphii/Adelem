@@ -89,6 +89,12 @@
             <artifactId>prettytime</artifactId>
             <version>5.0.1.Final</version>
         </dependency>
+        <!--- Substance -->
+        <dependency>
+            <groupId>org.pushing-pixels</groupId>
+            <artifactId>radiance-substance</artifactId>
+            <version>4.0.0</version>
+        </dependency>
     </dependencies>
 
 </project>
