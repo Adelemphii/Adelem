@@ -2,6 +2,9 @@
 
 A simple Twitch bot to moderate chat using a really horribly coded console GUI made in Java Swing.
 
+## How to Use:
+Currently I only run using Intellij which is the IDE I use for Java programming. I don't really know how you can run it without using that, but I am in the works of an executable file for such.
+
 ## Features:
 - A lockdown command using !lockdown,
   * !lockdown <params>
