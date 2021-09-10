@@ -1,5 +1,5 @@
 debug: false
-discordBotToken: 
+console: true
 bot:
   # Name of your bot
   name: "placeholder"
