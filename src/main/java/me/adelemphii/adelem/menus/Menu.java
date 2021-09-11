@@ -56,6 +56,7 @@ public class Menu extends JFrame {
         ImageIcon icon = new ImageIcon(Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource("birbpog-twitch.png")));
         if(icon.getImage() != null) setIconImage(icon.getImage());
 
+        // TODO: Make this work with JTextPane instead of JTextArea (for customization w/ text)
         PrintStream con=new PrintStream(new TextAreaOutputStream(consoleTextArea));
         System.setOut(con);
         System.setErr(con);
@@ -86,12 +87,18 @@ public class Menu extends JFrame {
         String payload = "[" + date + "] " + user + ": " + text + " \n\t-Channel: " + channel.toUpperCase() + "\n";
         if(text.contains("!lockdown")) {
             CommandLockDown.runCommand(channel, user, text);
-            consoleTextArea.append(payload);
-            consoleTextArea.append("Lockdown Enabled/Disabled!\n");
+            consoleTextArea.insert(payload, 0);
             return;
         }
 
-        consoleTextArea.append(payload);
+        consoleTextArea.insert(payload, 0);
         Core.twitchBot.getClient().getChat().sendMessage(Core.getChannelChosen(), chatInput.getText());
+    }
+
+    public void sendMessageToConsole(String channel, String user, String text) {
+        Date date = Calendar.getInstance().getTime();
+        String payload = "[" + date + "] " + user + ": " + text + " \n\t-Channel: " + channel.toUpperCase() + "\n";
+
+        consoleTextArea.insert(payload, 0);
     }
 }
