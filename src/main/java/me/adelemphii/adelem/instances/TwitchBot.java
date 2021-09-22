@@ -5,7 +5,7 @@ import com.github.philippheuer.events4j.simple.SimpleEventHandler;
 import com.github.twitch4j.TwitchClient;
 import com.github.twitch4j.TwitchClientBuilder;
 import me.adelemphii.adelem.Core;
-import me.adelemphii.adelem.commands.twitchcommands.CommandHandler;
+import me.adelemphii.adelem.commands.twitchcommands.TwitchCommandHandler;
 import me.adelemphii.adelem.twitchevents.LinkTwitchChatsTogether;
 import me.adelemphii.adelem.twitchevents.WriteChannelChatToConsole;
 import me.adelemphii.adelem.twitchevents.WriteChannelChatToDiscord;
@@ -53,7 +53,7 @@ public class TwitchBot {
             new WriteChannelChatToDiscord(eventHandler);
         }
 
-        new CommandHandler(eventHandler);
+        new TwitchCommandHandler(eventHandler);
     }
 
     public void start() {

@@ -1,6 +1,7 @@
 package me.adelemphii.adelem.instances;
 
 import me.adelemphii.adelem.Core;
+import me.adelemphii.adelem.commands.discordcommands.DiscordCommandHandler;
 import me.adelemphii.adelem.discordevents.WriteDiscordChatToTwitch;
 import me.adelemphii.adelem.util.Configuration;
 import org.javacord.api.DiscordApi;
@@ -27,7 +28,7 @@ public class DiscordBot {
                 .login().join();
 
         registerListeners(api);
-        startActivityUpdateTask();
+        //startActivityUpdateTask();
     }
 
     public void start() {
@@ -41,6 +42,7 @@ public class DiscordBot {
 
     private void registerListeners(DiscordApi api) {
         api.addListener(new WriteDiscordChatToTwitch());
+        api.addListener(new DiscordCommandHandler());
     }
 
     public DiscordApi getApi() {

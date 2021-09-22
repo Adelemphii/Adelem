@@ -1,23 +1,19 @@
 package me.adelemphii.adelem.commands.twitchcommands;
 
 import com.github.philippheuer.events4j.simple.SimpleEventHandler;
-import com.github.twitch4j.TwitchClient;
 import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
-import me.adelemphii.adelem.Core;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class CommandHandler {
-
-    TwitchClient client = Core.twitchBot.getClient();
+public class TwitchCommandHandler {
 
     /**
      * Register events of this class with the EventManager/EventHandler
      *
      * @param eventHandler SimpleEventHandler
      */
-    public CommandHandler(SimpleEventHandler eventHandler) {
+    public TwitchCommandHandler(SimpleEventHandler eventHandler) {
         eventHandler.onEvent(ChannelMessageEvent.class, this::onChannelMessage);
     }
 
