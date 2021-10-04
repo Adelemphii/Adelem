@@ -70,11 +70,7 @@ public class Configuration {
 
     @Override
     public String toString() {
-        return "Configuration{" +
-                "\nbot=" + bot +
-                ", \napi=" + api +
-                ", \ncredentials=" + credentials +
-                ", \nchannels=" + channels +
-                '}';
+        return "Configuration{\nbot=%s, \napi=%s, \ncredentials=%s, \nchannels=%s}".formatted(bot,
+            api, credentials, channels);
     }
 }
