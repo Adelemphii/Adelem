@@ -2,6 +2,7 @@ package me.adelemphii.adelem.menus;
 
 import me.adelemphii.adelem.Core;
 import me.adelemphii.adelem.commands.CommandLockDown;
+import org.jetbrains.annotations.NotNull;
 import org.pushingpixels.substance.api.SubstanceCortex;
 import org.pushingpixels.substance.api.skin.GraphiteChalkSkin;
 import org.pushingpixels.substance.api.skin.SubstanceGraphiteChalkLookAndFeel;
@@ -14,6 +15,9 @@ import java.util.Date;
 import java.util.Objects;
 
 public class Menu extends JFrame {
+
+    private final Core core;
+    private final CommandLockDown lockDown;
     private JPanel consolePanel;
     private JTabbedPane tabs;
     private JPanel consoleTab;
@@ -25,27 +29,29 @@ public class Menu extends JFrame {
     private JTextField chatInput;
     private JScrollPane scrollyArea;
 
-    public Menu() throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+    public Menu(@NotNull Core core, @NotNull CommandLockDown lockDown) throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+        this.core = core;
+        this.lockDown = lockDown;
         configureSettings();
+        configureMenus();
+        addActionListeners();
+    }
 
+    private void configureMenus() {
         consoleTextArea.setEditable(false);
-
         configText.setText("EXTREMELY WIP, SORRY!");
         configText.setEditable(false);
+        core.getConfig().getChannels().forEach(channelBox::addItem);
+    }
 
-        for(String channel : Core.config.getChannels()) {
-            channelBox.addItem(channel);
-        }
-
+    private void addActionListeners() {
         channelBox.addActionListener(e -> {
             JComboBox box = (JComboBox) e.getSource();
-
-            Core.setChannelChosen(box.getSelectedItem().toString());
-
+            core.setChannelChosen(box.getSelectedItem().toString());
         });
         chatInput.addActionListener(e -> {
-            final String user = Core.config.getBot().get("name");
-            this.sendMessageToTwitch(Core.getChannelChosen(), user, chatInput.getText());
+            final String user = core.getConfig().getBot().get("name");
+            this.sendMessageToTwitch(core.getChannelChosen(), user, chatInput.getText());
             chatInput.setText("");
         });
     }
@@ -54,10 +60,10 @@ public class Menu extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         ImageIcon icon = new ImageIcon(Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource("birbpog-twitch.png")));
-        if(icon.getImage() != null) setIconImage(icon.getImage());
+        if (icon.getImage() != null) setIconImage(icon.getImage());
 
         // TODO: Make this work with JTextPane instead of JTextArea (for customization w/ text)
-        PrintStream con=new PrintStream(new TextAreaOutputStream(consoleTextArea));
+        PrintStream con = new PrintStream(new TextAreaOutputStream(consoleTextArea));
         System.setOut(con);
         System.setErr(con);
 
@@ -82,23 +88,21 @@ public class Menu extends JFrame {
         // Please help, I can't make GUIs..
     }
 
-    public void sendMessageToTwitch(String channel, String user, String text) {
+    public void sendMessageToTwitch(@NotNull String channel, String user, @NotNull String text) {
         Date date = Calendar.getInstance().getTime();
-        String payload = "[" + date + "] " + user + ": " + text + " \n\t-Channel: " + channel.toUpperCase() + "\n";
-        if(text.contains("!lockdown")) {
-            CommandLockDown.runCommand(channel, user, text);
+        String payload = "[%s] %s: %s \n\t-Channel: %s\n".formatted(date, user, text, channel.toUpperCase());
+        if (text.contains("!lockdown")) {
+            lockDown.runCommand(channel, user, text);
             consoleTextArea.insert(payload, 0);
             return;
         }
-
         consoleTextArea.insert(payload, 0);
-        Core.twitchBot.getClient().getChat().sendMessage(Core.getChannelChosen(), chatInput.getText());
+        core.getTwitchBot().getClient().getChat().sendMessage(core.getChannelChosen(), chatInput.getText());
     }
 
-    public void sendMessageToConsole(String channel, String user, String text) {
+    public void sendMessageToConsole(@NotNull String channel, String user, String text) {
         Date date = Calendar.getInstance().getTime();
-        String payload = "[" + date + "] " + user + ": " + text + " \n\t-Channel: " + channel.toUpperCase() + "\n";
-
+        String payload = "[%s] %s: %s \n\t-Channel: %s\n".formatted(date, user, text, channel.toUpperCase());
         consoleTextArea.insert(payload, 0);
     }
 }

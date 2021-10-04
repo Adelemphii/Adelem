@@ -10,13 +10,18 @@ import me.adelemphii.adelem.commands.CommandHandler;
 import me.adelemphii.adelem.twitchevents.WriteChannelChatToConsole;
 import me.adelemphii.adelem.twitchevents.WriteChannelLiveStatus;
 import me.adelemphii.adelem.util.Configuration;
+import org.jetbrains.annotations.NotNull;
 
 public class TwitchBot {
 
-    private final Configuration config = Core.config;
+    private final Core core;
+    private final Configuration config;
     private final TwitchClient client;
 
-    public TwitchBot() {
+    public TwitchBot(@NotNull Core core) {
+
+        this.core = core;
+        this.config = core.getConfig();
 
         TwitchClientBuilder builder = TwitchClientBuilder.builder();
 
@@ -39,13 +44,13 @@ public class TwitchBot {
                 .build();
     }
 
+
+
     public void registerEvents() {
         SimpleEventHandler eventHandler = client.getEventManager().getEventHandler(SimpleEventHandler.class);
-
-        new WriteChannelChatToConsole(eventHandler);
-        new WriteChannelLiveStatus(eventHandler);
-
-        new CommandHandler(eventHandler);
+        new WriteChannelChatToConsole(core, eventHandler);
+        new WriteChannelLiveStatus(core, eventHandler);
+        new CommandHandler(core, eventHandler, core.getLockDown());
     }
 
     public void start() {
@@ -53,7 +58,7 @@ public class TwitchBot {
         boolean first = false;
         for (String channel : config.getChannels()) {
             if (!first) {
-                Core.setChannelChosen(channel);
+                core.setChannelChosen(channel);
                 first = true;
             }
             client.getChat().joinChannel(channel);

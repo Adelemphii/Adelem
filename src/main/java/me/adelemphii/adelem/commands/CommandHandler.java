@@ -11,14 +11,17 @@ import org.jetbrains.annotations.NotNull;
 
 public class CommandHandler {
 
-    private final TwitchClient client = Core.twitchBot.getClient();
+    private final TwitchClient client;
+    private final CommandLockDown lockDown;
 
     /**
      * Register events of this class with the EventManager/EventHandler
      *
      * @param eventHandler SimpleEventHandler
      */
-    public CommandHandler(@NotNull SimpleEventHandler eventHandler) {
+    public CommandHandler(@NotNull Core core, @NotNull SimpleEventHandler eventHandler, @NotNull final CommandLockDown lockDown) {
+        this.client = core.getTwitchBot().getClient();
+        this.lockDown = lockDown;
         eventHandler.onEvent(ChannelMessageEvent.class, this::onChannelMessage);
     }
 
@@ -31,7 +34,7 @@ public class CommandHandler {
         if (args.isEmpty()) return;
 
         if (args.get(0).equalsIgnoreCase("!lockdown")) {
-            CommandLockDown.runCommand(event);
+            lockDown.runCommand(event);
         }
 
     }

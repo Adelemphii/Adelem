@@ -18,9 +18,15 @@ public class CommandLockDown {
   private static Set<String> SIMPLE_LOCKDOWN_CMDS = Set.of("/followers 1h", "/clear", "/slow 5s");
   private static Set<String> DISABLE_LOCKDOWN_CMDS = Set.of("/followersoff", "/uniquechatoff", "/emoteonlyoff", "/subscribersoff", "/slowoff");
 
-  public static void runCommand(@NotNull ChannelMessageEvent event) {
+  private final Core core;
 
-    List<String> args = List.of(event.getMessage().split(" "));
+  public CommandLockDown(@NotNull Core core) {
+    this.core = core;
+  }
+
+  public void runCommand(@NotNull ChannelMessageEvent event) {
+
+    List<String> args = Arrays.asList(event.getMessage().split(" "));
 
     if (args.isEmpty()) return;
     if (!event.getPermissions().contains(CommandPermission.MODERATOR)) return;
@@ -30,21 +36,20 @@ public class CommandLockDown {
     }
     else if(args.size() == 2) {
       // !lockdown disable - 2
-      if(args.get(1).equalsIgnoreCase("disable")) disableLockdown(event);
-      else if (args.get(1).equalsIgnoreCase("sub") || args.get(1).equalsIgnoreCase("subscriber") || args.get(1).equalsIgnoreCase("s"))
-        advancedLockdown(event, args, "subscribers");
+      final String arg = args.get(1);
+      if (arg.equalsIgnoreCase("disable")) disableLockdown(event);
+      else if (SUB_ALIAS.stream().anyMatch(arg::equalsIgnoreCase)) advancedLockdown(event, args, "subscribers");
     }
-    else if(args.size() == 3) {
+    else if (args.size() == 3) {
       // !lockdown f 60m - 3
-      if (args.get(1).equalsIgnoreCase("followers") || args.get(1).equalsIgnoreCase("f"))
-        advancedLockdown(event, args, "followers");
+      final String arg = args.get(1);
+      if (FOLLOWER_ALIAS.stream().anyMatch(arg::equalsIgnoreCase)) advancedLockdown(event, args, "followers");
     }
   }
 
-  public static void runCommand(@NotNull String channel, @NotNull String user, @NotNull String text) {
+  public void runCommand(@NotNull String channel, @NotNull String user, @NotNull String text) {
 
-    List<String> args = List.of(text.split(" "));
-
+    List<String> args = Arrays.asList(text.split(" "));
     if (args.isEmpty()) return;
 
     if (args.size() == 1) {
@@ -63,7 +68,7 @@ public class CommandLockDown {
     }
   }
 
-  private static void simpleLockdown(@NotNull ChannelMessageEvent event) {
+  private void simpleLockdown(@NotNull ChannelMessageEvent event) {
 
     final TwitchChat chat = event.getTwitchChat();
     final String name = event.getChannel().getName();
@@ -77,7 +82,7 @@ public class CommandLockDown {
         ircMessageEvent.getTagValue("display-name").orElse(event.getUser().getName()) + " has registered this chat as being under simple lockdown!");
   }
 
-  private static void disableLockdown(@NotNull ChannelMessageEvent event) {
+  private void disableLockdown(@NotNull ChannelMessageEvent event) {
 
     final TwitchChat chat = event.getTwitchChat();
     final String name = event.getChannel().getName();
@@ -89,7 +94,7 @@ public class CommandLockDown {
         ircMessageEvent.getTagValue("display-name").orElse(event.getUser().getName()) + " has disabled the lockdown!");
   }
 
-  private static void advancedLockdown(@NotNull ChannelMessageEvent event, List<String> args, @NotNull String type) {
+  private void advancedLockdown(@NotNull ChannelMessageEvent event, @NotNull List<String> args, @NotNull String type) {
 
     final TwitchChat chat = event.getTwitchChat();
     final String name = event.getChannel().getName();
@@ -117,26 +122,26 @@ public class CommandLockDown {
     }
   }
 
-  private static @NotNull String formatChatCommand(@NotNull List<String> args) {
+  private @NotNull String formatChatCommand(@NotNull List<String> args) {
     return "/%s %s".formatted(args.get(1), args.get(2));
   }
 
-  private static void simpleLockdown(@NotNull String channel, @NotNull String user) {
-    final TwitchChat chat = Core.twitchBot.getClient().getChat();
+  private void simpleLockdown(@NotNull String channel, @NotNull String user) {
+    final TwitchChat chat = core.getTwitchBot().getClient().getChat();
     SIMPLE_LOCKDOWN_CMDS.forEach(cmd -> chat.sendMessage(channel, cmd));
     chat.sendMessage(channel,
         user + " has registered this chat as being under simple lockdown!");
   }
 
-  private static void disableLockdown(@NotNull String channel, @NotNull String user) {
-    final TwitchChat chat = Core.twitchBot.getClient().getChat();
+  private void disableLockdown(@NotNull String channel, @NotNull String user) {
+    final TwitchChat chat = core.getTwitchBot().getClient().getChat();
     DISABLE_LOCKDOWN_CMDS.forEach(cmd -> chat.sendMessage(channel, cmd));
     chat.sendMessage(channel,
         user + " has disabled the lockdown!");
   }
 
-  private static void advancedLockdown(@NotNull String channel, @NotNull String user, @NotNull List<String> args, @NotNull String type) {
-    final TwitchChat chat = Core.twitchBot.getClient().getChat();
+  private void advancedLockdown(@NotNull String channel, @NotNull String user, @NotNull List<String> args, @NotNull String type) {
+    final TwitchChat chat = core.getTwitchBot().getClient().getChat();
     chat.sendMessage(channel, "/clear");
     if (type.equals("followers")) {
       args.set(1, "followers");
@@ -145,7 +150,7 @@ public class CommandLockDown {
       chat.sendMessage(channel,
           user + " has registered this chat as being under a " + args.get(2) + " follower lockdown!");
     }
-    else if(type.equals("subscribers")) {
+    else if (type.equals("subscribers")) {
       args.set(1, "subscribers");
       // lockdown s 1h
       chat.sendMessage(channel, "/subscribers");
