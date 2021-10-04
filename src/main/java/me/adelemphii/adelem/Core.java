@@ -26,8 +26,8 @@ public final class Core {
 
     public Core(String @Nullable[] args) {
         loadConfiguration();
-        registerTwitchBot();
         registerFeel();
+        registerTwitchBot();
         addShutdownHooks();
     }
 
