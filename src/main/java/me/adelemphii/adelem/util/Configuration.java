@@ -18,15 +18,15 @@ public class Configuration {
 
     private List<String> channels;
 
-    private boolean discordBroadcast;
+    private Boolean console;
 
-    private List<String> webhooks;
+    public Boolean getConsole() {
+        return console;
+    }
 
-    private boolean chatLink;
-
-    private String discordBotToken;
-
-    private List<Long> specifyDiscordChannels;
+    public void setConsole(Boolean console) {
+        this.console = console;
+    }
 
     public Boolean getDebug() {
         return debug;
@@ -68,59 +68,9 @@ public class Configuration {
         this.channels = channels;
     }
 
-    public boolean getDiscordBroadcast() {
-        return discordBroadcast;
-    }
-
-    public void setDiscordBroadcast(boolean broadcast) {
-        this.discordBroadcast = broadcast;
-    }
-
-    public List<String> getWebhooks() {
-        return webhooks;
-    }
-
-    public void setWebhooks(List<String> webhooks) {
-        this.webhooks = webhooks;
-    }
-
-    public boolean hasWebhooks() {
-        return !webhooks.isEmpty();
-    }
-
-    public boolean getChatLink() {
-        return chatLink;
-    }
-
-    public void setChatLink(boolean chatLink) {
-        this.chatLink = chatLink;
-    }
-
-    public String getDiscordBotToken() {
-        return discordBotToken;
-    }
-
-    public void setDiscordBotToken(String discordBotToken) {
-        this.discordBotToken = discordBotToken;
-    }
-
-    public void setSpecifyDiscordChannels(List<Long> specifyDiscordChannels) {
-        this.specifyDiscordChannels = specifyDiscordChannels;
-    }
-
-    public List<Long> getSpecifyDiscordChannels() {
-        return specifyDiscordChannels;
-    }
-
     @Override
     public String toString() {
-        return "Configuration{" +
-                "bot=" + bot +
-                ", api=" + api +
-                ", credentials=" + credentials +
-                ", channels=" + channels +
-                ", discord broadcast=" + discordBroadcast +
-                ", has webhooks=" + hasWebhooks() +
-                '}';
+        return "Configuration{\nbot=%s, \napi=%s, \ncredentials=%s, \nchannels=%s}".formatted(bot,
+            api, credentials, channels);
     }
 }

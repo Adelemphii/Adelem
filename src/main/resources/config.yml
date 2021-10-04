@@ -1,5 +1,5 @@
 debug: false
-discordBotToken: 
+console: true
 bot:
   # Name of your bot
   name: "placeholder"
@@ -22,18 +22,4 @@ credentials:
 
 # Channels - The bot will connect to all listed channels
 channels:
-  - null
-
-# Choose to enable broadcasting to discord webhooks
-discordBroadcast: true
-
-# Choose to link twitch chats together
-chatLink: false
-
-# Webhook to channels to broadcast to
-webhooks:
-  - null
-
-# Choose which channels to get input from for the Discord bot
-specifyDiscordChannels:
-  - null
+  - CHANNEL_NAME
