@@ -4,21 +4,26 @@ import com.github.twitch4j.chat.TwitchChat;
 import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
 import com.github.twitch4j.chat.events.channel.IRCMessageEvent;
 import com.github.twitch4j.common.enums.CommandPermission;
-import java.util.Set;
 import me.adelemphii.adelem.Core;
+import me.adelemphii.adelem.util.LockdownStatus;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.List;
-import org.jetbrains.annotations.NotNull;
+import java.util.Set;
 
 public class CommandLockDown {
 
-  private static Set<String> SUB_ALIAS = Set.of("sub", "subscriber", "s");
-  private static Set<String> FOLLOWER_ALIAS = Set.of("followers", "f");
-  private static Set<String> SIMPLE_LOCKDOWN_CMDS = Set.of("/followers 1h", "/clear", "/slow 5s");
-  private static Set<String> DISABLE_LOCKDOWN_CMDS = Set.of("/followersoff", "/uniquechatoff", "/emoteonlyoff", "/subscribersoff", "/slowoff");
+  private static final Set<String> SUB_ALIAS = Set.of("sub", "subscriber", "s");
+  private static final Set<String> FOLLOWER_ALIAS = Set.of("followers", "f");
+  private static final Set<String> SIMPLE_LOCKDOWN_CMDS = Set.of("/followers 1h", "/clear", "/slow 5s");
+  private static final Set<String> DISABLE_LOCKDOWN_CMDS = Set.of("/followersoff", "/uniquechatoff", "/emoteonlyoff", "/subscribersoff", "/slowoff");
 
   private final Core core;
+
+  private LockdownStatus lockdownStatus = LockdownStatus.DISABLED;
+  private String lockdownType = "";
+  private String lockdownTime = "";
 
   public CommandLockDown(@NotNull Core core) {
     this.core = core;
@@ -29,7 +34,10 @@ public class CommandLockDown {
     List<String> args = Arrays.asList(event.getMessage().split(" "));
 
     if (args.isEmpty()) return;
-    if (!event.getPermissions().contains(CommandPermission.MODERATOR)) return;
+    if (!event.getPermissions().contains(CommandPermission.MODERATOR)) {
+      sendInformation(event.getChannel().getName(), event.getUser().getName());
+      return;
+    }
 
     if (args.size() == 1) {
       simpleLockdown(event);
@@ -80,6 +88,7 @@ public class CommandLockDown {
 
     chat.sendMessage(name,
         ircMessageEvent.getTagValue("display-name").orElse(event.getUser().getName()) + " has registered this chat as being under simple lockdown!");
+    setLockdownStatus(LockdownStatus.ENABLED, "simple", "1h");
   }
 
   private void disableLockdown(@NotNull ChannelMessageEvent event) {
@@ -92,6 +101,7 @@ public class CommandLockDown {
 
     chat.sendMessage(name,
         ircMessageEvent.getTagValue("display-name").orElse(event.getUser().getName()) + " has disabled the lockdown!");
+    setLockdownStatus(LockdownStatus.DISABLED, "", "");
   }
 
   private void advancedLockdown(@NotNull ChannelMessageEvent event, @NotNull List<String> args, @NotNull String type) {
@@ -109,6 +119,7 @@ public class CommandLockDown {
       chat.sendMessage(name,
           ircMessageEvent.getTagValue("display-name").orElse(event.getUser().getName())
               + " has registered this chat as being under a " + args.get(2) + " follower lockdown!");
+      setLockdownStatus(LockdownStatus.ENABLED, "follower", args.get(2));
     }
     else if(type.equals("subscribers")) {
       args.set(1, "subscribers");
@@ -117,6 +128,7 @@ public class CommandLockDown {
       chat.sendMessage(name,
           ircMessageEvent.getTagValue("display-name").orElse(event.getUser().getName())
               + " has registered this chat as being under sub-only lockdown!");
+      setLockdownStatus(LockdownStatus.ENABLED, "sub", args.get(2));
     } else {
       simpleLockdown(event);
     }
@@ -131,6 +143,7 @@ public class CommandLockDown {
     SIMPLE_LOCKDOWN_CMDS.forEach(cmd -> chat.sendMessage(channel, cmd));
     chat.sendMessage(channel,
         user + " has registered this chat as being under simple lockdown!");
+    setLockdownStatus(LockdownStatus.ENABLED, "simple", "1h");
   }
 
   private void disableLockdown(@NotNull String channel, @NotNull String user) {
@@ -138,6 +151,7 @@ public class CommandLockDown {
     DISABLE_LOCKDOWN_CMDS.forEach(cmd -> chat.sendMessage(channel, cmd));
     chat.sendMessage(channel,
         user + " has disabled the lockdown!");
+    setLockdownStatus(LockdownStatus.DISABLED, "", "");
   }
 
   private void advancedLockdown(@NotNull String channel, @NotNull String user, @NotNull List<String> args, @NotNull String type) {
@@ -149,6 +163,7 @@ public class CommandLockDown {
       chat.sendMessage(channel, formatChatCommand(args));
       chat.sendMessage(channel,
           user + " has registered this chat as being under a " + args.get(2) + " follower lockdown!");
+      setLockdownStatus(LockdownStatus.ENABLED, "follower", args.get(2));
     }
     else if (type.equals("subscribers")) {
       args.set(1, "subscribers");
@@ -156,9 +171,28 @@ public class CommandLockDown {
       chat.sendMessage(channel, "/subscribers");
       chat.sendMessage(channel,
           user + " has registered this chat as being under sub-only lockdown!");
+      setLockdownStatus(LockdownStatus.ENABLED, "sub", args.get(2));
     } else {
       simpleLockdown(channel, user);
     }
+  }
+
+  private void sendInformation(@NotNull String channel, @NotNull String user) {
+    final TwitchChat chat = core.getTwitchBot().getClient().getChat();
+
+    if(lockdownStatus == LockdownStatus.ENABLED) {
+      chat.sendMessage(channel, user + ": The current lockdown is " + lockdownType + " for " + lockdownTime + ".");
+    }
+  }
+
+  public LockdownStatus getLockdownStatus() {
+    return lockdownStatus;
+  }
+
+  private void setLockdownStatus(LockdownStatus lockdownStatus, String lockdownType, String lockdownTime) {
+    this.lockdownStatus = lockdownStatus;
+    this.lockdownType = lockdownType;
+    this.lockdownTime = lockdownTime;
   }
 
 }
