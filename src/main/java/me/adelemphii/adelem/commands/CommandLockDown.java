@@ -189,6 +189,14 @@ public class CommandLockDown {
     return lockdownStatus;
   }
 
+  public String getLockdownType() {
+    return lockdownType;
+  }
+
+  public String getLockdownTime() {
+    return lockdownTime;
+  }
+
   private void setLockdownStatus(LockdownStatus lockdownStatus, String lockdownType, String lockdownTime) {
     this.lockdownStatus = lockdownStatus;
     this.lockdownType = lockdownType;
